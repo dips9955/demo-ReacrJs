@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { useTodoSearch } from '../../hooks/useTodoSearch'
 import type { Todo } from '../../types/dashboard'
 
 type TodoListPageProps = {
@@ -10,6 +11,7 @@ type TodoListPageProps = {
 
 export function TodoListPage({ todos, addTodo, updateTodo, deleteTodo }: TodoListPageProps) {
   const [todoInput, setTodoInput] = useState('')
+  const { query, setQuery, results, isLoading, error, retry } = useTodoSearch(todos)
   const openTodoCount = todos.filter((todo) => !todo.done).length
   const completedTodoCount = todos.length - openTodoCount
 
@@ -40,9 +42,41 @@ export function TodoListPage({ todos, addTodo, updateTodo, deleteTodo }: TodoLis
         />
         <button className="button-primary" type="submit">Add task <span aria-hidden="true">+</span></button>
       </form>
-      {todos.length ? (
-        <ul className="item-list">
-          {todos.map((todo) => (
+      <div className="todo-search">
+        <label className="sr-only" htmlFor="todo-search">Search tasks</label>
+        <span className="todo-search-icon" aria-hidden="true">⌕</span>
+        <input
+          id="todo-search"
+          type="search"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Search your tasks..."
+          aria-describedby="todo-search-help"
+        />
+        {query && (
+          <button className="clear-search" type="button" onClick={() => setQuery('')}>
+            Clear
+          </button>
+        )}
+      </div>
+      <p id="todo-search-help" className="search-help">
+        Search updates after you pause typing.
+      </p>
+      <div className="todo-results" aria-live="polite" aria-busy={isLoading}>
+        {isLoading && <p className="search-status">Searching your tasks…</p>}
+        {error ? (
+          <div className="search-error" role="alert">
+            <span>{error}</span>
+            <button className="button-secondary" type="button" onClick={retry}>Try again</button>
+          </div>
+        ) : todos.length === 0 ? (
+          <div className="empty-state">
+            <span>✦</span><strong>Your list is clear</strong>
+            <p>Add a task above when you’re ready for the next one.</p>
+          </div>
+        ) : results.length ? (
+          <ul className="item-list">
+          {results.map((todo) => (
             <li className={`todo-row ${todo.done ? 'todo-done' : ''}`} key={todo.id}>
               <label className="todo-label">
                 <input
@@ -61,13 +95,14 @@ export function TodoListPage({ todos, addTodo, updateTodo, deleteTodo }: TodoLis
               >×</button>
             </li>
           ))}
-        </ul>
-      ) : (
-        <div className="empty-state">
-          <span>✦</span><strong>Your list is clear</strong>
-          <p>Add a task above when you’re ready for the next one.</p>
-        </div>
-      )}
+          </ul>
+        ) : (
+          <div className="empty-state search-empty">
+            <span>⌕</span><strong>No matching tasks</strong>
+            <p>Try another search term or clear your search.</p>
+          </div>
+        )}
+      </div>
     </section>
   )
 }
