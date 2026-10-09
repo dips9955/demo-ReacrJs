@@ -1,121 +1,80 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { PageHeading } from './components/PageHeading'
+import { Sidebar, Topbar } from './components/layout'
+import { useProjects } from './hooks/useProjects'
+import { useTodos } from './hooks/useTodos'
+import { CounterPage } from './features/counter'
+import { HomePage } from './features/home'
+import { ProjectsPage } from './features/projects'
+import { TodoListPage } from './features/todos'
+import type { Page } from './types/dashboard'
 import './App.css'
 
 function App() {
+  const [page, setPage] = useState<Page>('Home')
   const [count, setCount] = useState(0)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { todos, addTodo, updateTodo, deleteTodo } = useTodos()
+  const { projects: lldProjects, addProject: addLldProject } = useProjects('lld')
+  const { projects: hldProjects, addProject: addHldProject } = useProjects('hld')
+
+  const openPage = (nextPage: Page) => {
+    setPage(nextPage)
+    setMobileMenuOpen(false)
+  }
+
+  const pendingTodoCount = todos.filter((todo) => !todo.done).length
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Hello</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-shell">
+      <Sidebar
+        activePage={page}
+        open={mobileMenuOpen}
+        openPage={openPage}
+        pendingTodoCount={pendingTodoCount}
+        close={() => setMobileMenuOpen(false)}
+      />
 
-      <div className="ticks"></div>
+      <div className="main-column">
+        <Topbar
+          activePage={page}
+          menuOpen={mobileMenuOpen}
+          toggleMenu={() => setMobileMenuOpen((isOpen) => !isOpen)}
+        />
+        <main className="page-content">
+          <PageHeading page={page} />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+          {page === 'Home' && (
+            <HomePage
+              todos={todos}
+              lldProjects={lldProjects}
+              hldProjects={hldProjects}
+              onNavigate={openPage}
+            />
+          )}
+          {page === 'Counter' && <CounterPage count={count} setCount={setCount} />}
+          {page === 'Todo List' && (
+            <TodoListPage
+              todos={todos}
+              addTodo={addTodo}
+              updateTodo={updateTodo}
+              deleteTodo={deleteTodo}
+            />
+          )}
+          {page === 'LLD Projects' && (
+            <ProjectsPage page="LLD Projects" projects={lldProjects} addProject={addLldProject} />
+          )}
+          {page === 'HLD Projects' && (
+            <ProjectsPage page="HLD Projects" projects={hldProjects} addProject={addHldProject} />
+          )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+          <footer className="page-footer">
+            <span>Made for ideas worth building.</span>
+            <span>devspace <span aria-hidden="true">✦</span></span>
+          </footer>
+        </main>
+      </div>
+    </div>
   )
 }
 

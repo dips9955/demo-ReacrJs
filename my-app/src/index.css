@@ -1,111 +1,124 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-canvas: #f8f8fc;
+  --color-ink: #282638;
+  --color-surface: #fff;
+  --color-border: #efedf4;
+  --color-border-soft: #f0eef4;
+  --color-border-subtle: #eeedf3;
+  --color-border-faint: #f2f0f5;
+  --color-border-card: #f0eef8;
+  --color-border-control: #eae8f0;
+  --color-border-control-hover: #eeecf3;
+  --color-border-checkbox: #dcd9e6;
+  --color-border-banner: #fff;
+  --color-text-strong: #454254;
+  --color-text-secondary: #777487;
+  --color-text-muted: #aaa6b5;
+  --color-text-subtle: #aaa7b7;
+  --color-text-soft: #9592a2;
+  --color-text-faint: #b0adba;
+  --color-text-banner: #302b50;
+  --color-brand: #6654d9;
+  --color-brand-active: #6554d8;
+  --color-brand-hover: #5f4dce;
+  --color-brand-light: #8b73ec;
+  --color-brand-soft: #f0edff;
+  --color-brand-wash: #f7f5ff;
+  --color-brand-pale: #e6e0ff;
+  --color-brand-muted: #9185db;
+  --color-brand-mid: #7869c8;
+  --color-brand-highlight: #7565d6;
+  --color-brand-icon: #7768d8;
+  --color-brand-art: #8a79db;
+  --color-brand-number: #54469f;
+  --color-brand-progress: #4d4379;
+  --color-brand-symbol: #8d82d5;
+  --color-purple-ink: #4a4758;
+  --color-purple-soft: #817b9b;
+  --color-purple-muted: #9692a4;
+  --color-purple-mid: #858193;
+  --color-purple-deep: #333143;
+  --color-purple-text: #343143;
+  --color-purple-secondary: #777386;
+  --color-purple-heading: #484555;
+  --color-purple-empty: #555263;
+  --color-purple-stat: #302e3f;
+  --color-gray-quiet: #a09cac;
+  --color-gray-soft: #a09cab;
+  --color-gray-muted: #9d99a9;
+  --color-gray-faint: #a5a1af;
+  --color-gray-line: #d4d1dc;
+  --color-gray-arrow: #b5b1c0;
+  --color-gray-dots: #aaa6b8;
+  --color-gray-form: #b1aeba;
+  --color-gray-disabled: #a19dab;
+  --color-gray-panel: #8c8999;
+  --color-success: #65c99a;
+  --color-mint: #55a88c;
+  --color-mint-soft: #eaf8f2;
+  --color-peach: #d58d62;
+  --color-peach-soft: #fff2e9;
+  --color-danger: #ce6e6e;
+  --color-danger-soft: #fff0f0;
+  --color-banner-start: #ece9ff;
+  --color-banner-middle: #f4f1ff;
+  --color-banner-end: #eeeaff;
+  --color-art-card-dot: #a393f0;
+  --color-art-line: #e7e3f5;
+  --color-art-line-strong: #d7d1f3;
+  --color-art-cell: #eeebfa;
+  --color-art-cell-active: #ded8fa;
+  --color-art-circle: #a99ce9;
+  --color-counter-start: #faf9ff;
+  --color-project-surface: #fdfcff;
+  --color-avatar: #eeeaff;
+  --color-transparent-white: rgba(255, 255, 255, .92);
+  --color-card-white: rgba(255, 255, 255, .84);
+  --color-art-white: rgba(255, 255, 255, .75);
+  --color-overlay: rgba(33, 28, 53, .5);
+  --color-shadow-sidebar: rgba(39, 34, 58, .09);
+  --color-shadow-card: rgba(38, 31, 75, .025);
+  --color-shadow-art: rgba(92, 75, 164, .12);
+  --color-shadow-circle: rgba(183, 170, 231, .27);
+  --color-orbit: rgba(131, 116, 207, .18);
+  --color-focus-glow: rgba(147, 132, 226, .11);
+  --color-progress-start: #a392eb;
+  --color-progress-end: #7161d7;
+  --color-lavender-banner: #a99ce9;
+  --color-input-focus: #998de2;
+  --color-input-focus-border: #d7d1f4;
+  --color-heading-icon: #aaa2de;
+  --color-border-row: #f4f2f7;
+  --color-brand-progress-light: #a998e7;
+  --color-border-progress: #f0eef5;
+  --color-brand-footer: #9284dd;
+  --color-border-counter: #f0eef7;
+  --color-task-text: #565364;
+  --color-brand-project: #7869d8;
+  --color-project-heading: #484555;
+  --color-brand-empty: #8d82d5;
+  --color-empty-heading: #555263;
+  --color-border-overlay: rgba(33, 28, 53, .5);
+  --color-text-menu-icon: #716a83;
+}
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--color-ink);
+  background: var(--color-canvas);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  font-optical-sizing: auto;
+  font-weight: 400;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
-}
+* { box-sizing: border-box; }
+html { min-width: 320px; min-height: 100%; }
+body { min-width: 320px; min-height: 100vh; margin: 0; }
+button,input { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+#root { min-height: 100vh; }
